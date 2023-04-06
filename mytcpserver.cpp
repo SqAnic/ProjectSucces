@@ -1,3 +1,4 @@
+
 #include "mytcpserver.h"
 #include <QDebug>
 #include <QCoreApplication>
@@ -14,7 +15,7 @@ MyTcpServer::MyTcpServer(QObject *parent) : QObject(parent){
     connect(mTcpServer, &QTcpServer::newConnection,
             this, &MyTcpServer::slotNewConnection);
 
-    if(!mTcpServer->listen(QHostAddress::Any, 33333)){
+    if(!mTcpServer->listen(QHostAddress::Any, 34576)){
         qDebug() << "server is not started";
     } else {
         server_status=1;
@@ -55,6 +56,7 @@ void MyTcpServer::slotServerRead(){
     }
     mTcpSocket->write(str.toUtf8());
     Parsing(str.toUtf8());
+    qDebug() << str;
 }
 
 void MyTcpServer::slotClientDisconnected(){
