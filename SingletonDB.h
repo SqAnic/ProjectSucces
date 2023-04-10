@@ -33,9 +33,10 @@ class SingletonDB
         ~SingletonDB();
         friend class SingletonDB_Destroyer;
     public:
-        bool insertUser(const QString &login, const QString &password);
+        bool insertUser(const QString login, const QString name, const QString surname, const QString patronymic, const QString pass, const QString role);
         bool Query_db(QString query_str);
-        QList<QPair<QString, QString>> fetchAllUsers();
+        void fetchAllUsers();
+        QString authUser(const QString login, const QString pass, const QString role);
         static SingletonDB *getInstance(){
             if (!p_instance)
             {
@@ -44,4 +45,5 @@ class SingletonDB
             }
             return p_instance;
         }
+        int id = 0;
 };

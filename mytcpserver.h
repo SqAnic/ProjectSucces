@@ -26,7 +26,6 @@ private:
     QTcpServer * mTcpServer;
     QTcpSocket * mTcpSocket;
     int server_status;
-    int k = 0;
 };
 #endif // MYTCPSERVER_H
 
