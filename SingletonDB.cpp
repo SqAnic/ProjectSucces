@@ -78,32 +78,56 @@ void SingletonDB::fetchAllUsers() // Вывести таблицу ползов�
     else qDebug() << "Fetch all users error: " << query.lastError().text();
 }
 
-QString SingletonDB::authUser(const QString login, const QString pass, const QString role)
+//void SingletonDB::fetchAllUsers() // Вывести таблицу ползователей
+//{
+//    QString result = "";
+//    QSqlQuery query;
+//    query.prepare("SELECT * FROM User;");
+//    if (query.exec()) {
+//        while (query.next()) {
+//            result += QString("ID: %1 | Login: %2 | Name: %3 | Surname: %4 | Patronymic: %5 | Password: %6 | Role: %7 | status_online: %8")
+//                .arg(query.value(0).toString())
+//                .arg(query.value(1).toString())
+//                .arg(query.value(2).toString())
+//                .arg(query.value(3).toString())
+//                .arg(query.value(4).toString())
+//                .arg(query.value(5).toString())
+//                .arg(query.value(6).toString())
+//                .arg(query.value(7).toString());
+//            qDebug() << result;
+//            result = "";
+//        }
+//    }
+//    else qDebug() << "Fetch all users error: " << query.lastError().text();
+//}
+
+QString SingletonDB::authUser(const QString login, const QString pass, const int connection_id)
 {
     QSqlQuery query;
-    query.prepare("SELECT * FROM User WHERE login = :login AND pass = :pass AND role = :role;");
+    query.prepare("SELECT * FROM User WHERE login = :login AND pass = :pass;");
     query.bindValue(":login", login);
     query.bindValue(":pass", pass);
-    query.bindValue(":role", role);
+
     query.exec();
+
+    QString res;
 
     if(query.next())
         {
-            QString sessionId = QUuid::createUuid().toString();
-            query.prepare("UPDATE User SET status_online = :status_online, session_id = :session_id WHERE login = :login AND pass = :pass AND role = :role;");
+            res = query.value(query.record().indexOf("role")).toString();
+            query.prepare("UPDATE User SET status_online = :status_online, session_id = :session_id WHERE login = :login AND pass = :pass;");
             query.bindValue(":status_online", 1);
-            query.bindValue(":session_id", sessionId);
+            query.bindValue(":session_id", connection_id);
             query.bindValue(":login", login);
             query.bindValue(":pass", pass);
-            query.bindValue(":role", role);
             query.exec();
 
-            return role;
+            return "auth&"+res;
         }
     else
     {
         qDebug() << "Error auth user: " << query.lastError().text();
-        return "error";
+        return "auth&error";
     }
 }
 
@@ -115,9 +139,32 @@ void SingletonDB::logout(int connection_id)
     query.exec();
 }
 
-QString check_task(QString const connection_id, QString const task, QString const ans)
+void SingletonDB::update_task(const QString connection_id, const QString task, const QString ans)
 {
-    return "YES";
+    QSqlQuery query;
+    query.prepare("UPDATE User SET task"+task+" = task"+task + ans + " WHERE connection_id = :connection_id;");
+    query.bindValue(":connection_id", connection_id);
+    query.exec();
+}
+
+void SingletonDB::stat(const int connection_id)
+{
+    QSqlQuery query;
+    QString result = "";
+    query.prepare("SELECT * FROM User WHERE  connection_id = :connection_id AND status_online = 1;");
+    query.bindValue(":connection_id", connection_id);
+    query.exec();
+    result += QString("ID: %1 | Login: %2 | Name: %3 | Surname: %4 | Patronymic: %5 | task1_stat: %6 | task2_stat: %7 | task3_stat: %8 | task4_stat: %9")
+        .arg(query.value(0).toString())
+        .arg(query.value(1).toString())
+        .arg(query.value(2).toString())
+        .arg(query.value(3).toString())
+        .arg(query.value(4).toString())
+        .arg(query.value(5).toString())
+        .arg(query.value(6).toString())
+        .arg(query.value(7).toString())
+        .arg(query.value(8).toString());
+    qDebug() << result;
 }
 //Qstring SingletonDB::check_task(const QString connection_id, const QString task, const QString ans)
 //{

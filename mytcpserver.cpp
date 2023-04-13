@@ -2,7 +2,7 @@
 #include "mytcpserver.h"
 #include <QDebug>
 #include <QCoreApplication>
-#include "func.cpp"
+#include "func.h"
 
 MyTcpServer::~MyTcpServer()
 {
@@ -24,6 +24,7 @@ MyTcpServer::MyTcpServer(QObject *parent) : QObject(parent){
 
 void MyTcpServer::slotNewConnection(){
     if(server_status==1){
+        QTcpSocket * mTcpSocket;
         mTcpSocket = new QTcpSocket;
         mTcpSocket = mTcpServer->nextPendingConnection();
         mTcpSocket->write("Hello, World!!!I am echo server!\r\n");
@@ -36,13 +37,14 @@ void MyTcpServer::slotNewConnection(){
                 this, &MyTcpServer::slotServerRead);
         connect(mTcpSocket, &QTcpSocket::disconnected,
                 this, &MyTcpServer::slotClientDisconnected);
-        Sockets.push_back(mTcpSocket);
+        //Sockets.push_back(mTcpSocket);
     }
 }
 
 
 
 void MyTcpServer::slotServerRead(){
+    QTcpSocket * mTcpSocket;
     mTcpSocket = (QTcpSocket*)sender();
     QByteArray array;
     QString str;
@@ -52,14 +54,16 @@ void MyTcpServer::slotServerRead(){
         str.append(array);
     }
     //mTcpSocket->write(str.toUtf8());
-    Parsing(this, mTcpSocket, str.toUtf8());
+    Parsing(this->getConnectionId(mTcpSocket), str.toUtf8());
     //qDebug() << str;
 }
 
 void MyTcpServer::slotClientDisconnected(){
     QTcpSocket *mTcpSocket = (QTcpSocket*)sender();
+    int connection_id = this->getConnectionId(mTcpSocket);
+    logout(connection_id);
     qDebug() << "Client disconnected";
-    QString connection_id = QString::number(Clients.value(mTcpSocket));
+    //QString connection_id = QString::number(Clients.value(mTcpSocket));
     Clients.remove(mTcpSocket);
     mTcpSocket->close();
 }

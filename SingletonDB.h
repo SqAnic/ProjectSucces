@@ -34,12 +34,14 @@ class SingletonDB
         ~SingletonDB();
         friend class SingletonDB_Destroyer;
     public:
-        QString check_task(const QString connection_id, const QString task, const QString ans);
+        void update_task(const QString connection_id, const QString task, const QString ans);
         bool insertUser(const QString login, const QString name, const QString surname, const QString patronymic, const QString pass, const QString role);
         bool Query_db(QString query_str);
         void fetchAllUsers();
         void logout(int connection_id);
-        QString authUser(const QString login, const QString pass, const QString role);
+        void stat(const int connection_id);
+        void stat();
+        QString authUser(const QString login, const QString pass, const int connection_id);
         static SingletonDB *getInstance(){
             if (!p_instance)
             {
@@ -48,5 +50,4 @@ class SingletonDB
             }
             return p_instance;
         }
-        int id;
 };
