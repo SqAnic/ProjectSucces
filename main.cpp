@@ -6,13 +6,14 @@ int main(int argc, char *argv[])
 {
     QCoreApplication a(argc, argv);
     MyTcpServer server;
+
     QString ClearTableQuery = "DELETE FROM User;"; //Чистить заранее собранную таблицу
-    QString CreateTableQuery = "CREATE TABLE IF NOT EXISTS User(id INT NOT NULL, login TEXT NOT NULL, name TEXT NOT NULL, surname TEXT NOT NULL, patronymic TEXT NOT NULL, pass TEXT NOT NULL, role TEXT NOT NULL);"; //Создать таблицу
+    QString CreateTableQuery = "CREATE TABLE IF NOT EXISTS User(id INTEGER PRIMARY KEY AUTOINCREMENT, login TEXT NOT NULL, name TEXT NOT NULL, surname TEXT NOT NULL, patronymic TEXT NOT NULL, pass TEXT NOT NULL, role TEXT NOT NULL, connection_id INTEGER , status_online INTEGER NOT NULL DEFAULT 0, INT task1_stat, INT task2_stat, INT task3_stat, INT task4_stat, INT task5_stat);";
     QString DropTableQuery = "DROP TABLE User;";
 
-    //qDebug() << "Create table result: " << SingletonDB::getInstance()->Query_db(DropTableQuery); // Выполнение запросов типа Create/Delete/Drop
+    //qDebug() << "Drop table result: " << SingletonDB::getInstance()->Query_db(DropTableQuery); // Выполнение запросов типа Create/Delete/Drop
     qDebug() << "Create table result: " << SingletonDB::getInstance()->Query_db(CreateTableQuery); // Выполнение запросов типа Create/Delete/Drop
-    //qDebug() << "Create table result: " << SingletonDB::getInstance()->Query_db(ClearTableQuery); // Чищу таблицу, пока она в тестовом варианте
+    //qDebug() << "Clear table result: " << SingletonDB::getInstance()->Query_db(ClearTableQuery); // Чищу таблицу, пока она в тестовом варианте
     SingletonDB::getInstance()-> fetchAllUsers();
     return a.exec();
 }
