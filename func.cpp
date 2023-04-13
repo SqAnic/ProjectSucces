@@ -1,23 +1,26 @@
 #include <QDebug>
 #include <SingletonDB.h>
+#include "mytcpserver.h"
 
-void auth(QString login, QString pass, QString role){
-    if (SingletonDB::getInstance()->authUser(login, pass, role) == "error")
+void auth(const QString login, const QString pass, const QString role){
+    QString result = SingletonDB::getInstance()->authUser(login, pass, role);
+    if (result  == "error")
     {
         qDebug() << "error auth";
     }
-    else if (SingletonDB::getInstance()->authUser(login, pass, role) == "stud")
+
+    else if (result == "stud")
     {
         qDebug() << "Welcome Student!";
     }
-    else if (SingletonDB::getInstance()->authUser(login, pass, role) == "teach")
+    else if (result == "teach")
     {
         qDebug() << "Welcome Teacher!";
     }
 
 }
 
-void registration(QString login, QString name,QString surname,QString patronymic, QString pass, QString role)
+void registration(const QString login, const QString name,const QString surname,const QString patronymic, const QString pass, const QString role)
 {
 
     qDebug() << "Insert user result: " << SingletonDB::getInstance()->insertUser(login, name, surname, patronymic, pass, role);
@@ -25,7 +28,7 @@ void registration(QString login, QString name,QString surname,QString patronymic
 
 }
 
-void Parsing(QString message){
+void Parsing(MyTcpServer *mTcpServer, QTcpSocket *mTcpSocket, QString message){
     QList<QString> parts = message.split('&');
     qDebug() << parts[0];
     if(parts[0] == "auth"){
@@ -55,4 +58,18 @@ void Parsing(QString message){
         registration(login, name, surname, patromynic, pass, role);
         }
     }
+    else if(parts[0] == "logout"){
+            if(parts.length() != 1)
+            {
+                qDebug() << "error";
+            }
+            else
+            {
+                int connection_id = mTcpServer->getConnectionId(mTcpSocket); // получение connection_id для текущего пользователя
+                SingletonDB::getInstance()->logout(connection_id);
+
+                mTcpServer->slotClientDisconnected();
+            }
+        }
+
 }
