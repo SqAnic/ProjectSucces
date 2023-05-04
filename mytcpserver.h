@@ -20,12 +20,8 @@ public slots:
     void slotNewConnection();
     void slotClientDisconnected();
     void slotServerRead();
-    //QString check_task(QString const connection_id, QString const task, QString cans);
-    //void slotReadClient();
 private:
-    //QVector <QTcpSocket*> Sockets;
     QTcpServer * mTcpServer;
-    //QTcpSocket * mTcpSocket;
     QMap<QTcpSocket*, int> Clients;
     int server_status;
 };

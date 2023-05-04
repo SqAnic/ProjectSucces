@@ -22,26 +22,23 @@ MyTcpServer::MyTcpServer(QObject *parent) : QObject(parent){
     }
 }
 
-void MyTcpServer::slotNewConnection(){
-    if(server_status==1){
-        QTcpSocket * mTcpSocket;
-        mTcpSocket = new QTcpSocket;
-        mTcpSocket = mTcpServer->nextPendingConnection();
-        mTcpSocket->write("Hello, World!!!I am echo server!\r\n");
+void MyTcpServer::slotNewConnection() {
+    if (server_status == 1) {
+        qDebug() << "New client connected";
+        QTcpSocket *mTcpSocket = mTcpServer->nextPendingConnection();
+        mTcpSocket->write("Hello, World!!! I am echo server!\r\n");
         int connection_id = mTcpSocket->socketDescriptor();
         mTcpSocket->write("Your connection ID: ");
         mTcpSocket->write(QString::number(connection_id).toUtf8());
         mTcpSocket->write("\r\n");
-        Clients.insert(mTcpSocket,connection_id);
+        mTcpSocket->flush(); // Добавьте эту строку
+        Clients.insert(mTcpSocket, connection_id);
         connect(mTcpSocket, &QTcpSocket::readyRead,
                 this, &MyTcpServer::slotServerRead);
         connect(mTcpSocket, &QTcpSocket::disconnected,
                 this, &MyTcpServer::slotClientDisconnected);
-        //Sockets.push_back(mTcpSocket);
     }
 }
-
-
 
 void MyTcpServer::slotServerRead(){
     QTcpSocket * mTcpSocket;
@@ -54,6 +51,7 @@ void MyTcpServer::slotServerRead(){
         str.append(array);
     }
     //mTcpSocket->write(str.toUtf8());
+    qDebug()<< "recieve:"<<str;
     Parsing(this->getConnectionId(mTcpSocket), str.toUtf8());
     //qDebug() << str;
 }

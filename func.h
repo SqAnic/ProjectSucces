@@ -7,12 +7,12 @@ void stat(const int connection_id)
 }
 void auth(const QString login, const QString pass, const int connection_id){
     QString result = SingletonDB::getInstance()->authUser(login, pass, connection_id);
-    if (result  == "error")
+    if (result  == "auth&error")
     {
         qDebug() << "error auth";
     }
 
-    else if (result == "stud")
+    else if (result == "auth&stud")
     {
         qDebug() << "Welcome Student!";
     }
@@ -26,8 +26,8 @@ void auth(const QString login, const QString pass, const int connection_id){
 void registration(const QString login, const QString name,const QString surname,const QString patronymic, const QString pass, const QString role, int connection_id)
 {
 
-    qDebug() << "Insert user result: " << SingletonDB::getInstance()->insertUser(login, name, surname, patronymic, pass, role);
-
+    qDebug() << "Inser user result: " << SingletonDB::getInstance()->insertUser(login, name, surname, patronymic, pass, role);
+    SingletonDB::getInstance()->fetchAllUsers();
 
     //SingletonDB::getInstance()->fetchAllUsers();
 
@@ -42,13 +42,12 @@ void Parsing(int connection_id, QString message){
     QList<QString> parts = message.split('&');
     qDebug() << parts[0];
     if(parts[0] == "auth"){
-        if (parts.length() != 4){
+        if (parts.length() != 3){
             qDebug() << "error";
         }
         else{
         QString login = parts[1];
         QString pass = parts[2];
-        QString role = parts[3];
         auth(login, pass, connection_id);
         }
     }
