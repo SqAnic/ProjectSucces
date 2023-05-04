@@ -151,7 +151,7 @@ void SingletonDB::stat(const int connection_id)
 {
     QSqlQuery query;
     QString result = "";
-    query.prepare("SELECT * FROM User WHERE  connection_id = :connection_id AND status_online = 1;");
+    query.prepare("SELECT * FROM User WHERE  connection_id = :connection_id AND status_online = st;");
     query.bindValue(":connection_id", connection_id);
     query.exec();
     result += QString("ID: %1 | Login: %2 | Name: %3 | Surname: %4 | Patronymic: %5 | task1_stat: %6 | task2_stat: %7 | task3_stat: %8 | task4_stat: %9")
