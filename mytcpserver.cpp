@@ -70,3 +70,13 @@ int MyTcpServer::getConnectionId(QTcpSocket *socket)
 {
     return Clients.value(socket);
 }
+
+//void MyTcpServer::server_answer(bool answer)
+//{
+//    QTcpSocket * mTcpSocket;
+//    mTcpSocket = (QTcpSocket*)sender();
+////  if (answer == 1)
+////      mTcpSocket->write("1");
+////  else if (answer == 0)
+////      mTcpSocket->write("0");
+//}

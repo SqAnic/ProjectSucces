@@ -1,5 +1,6 @@
 #include <QDebug>
 #include "SingletonDB.h"
+#include <mytcpserver.h>
 
 void stat(const int connection_id)
 {
@@ -9,7 +10,7 @@ void auth(const QString login, const QString pass, const int connection_id){
     QString result = SingletonDB::getInstance()->authUser(login, pass, connection_id);
     if (result  == "auth&error")
     {
-        qDebug() << "error auth";
+
     }
 
     else if (result == "auth&stud")
@@ -69,10 +70,10 @@ void Parsing(int connection_id, QString message){
     }
 
     else if(parts[0] == "mystat"){
-        stat(connection_id);
+        SingletonDB::getInstance()->stat(connection_id);
     }
     else if(parts[0] == "stat"){
-        //stat();
+        SingletonDB::getInstance()->stat();
     }
 
 

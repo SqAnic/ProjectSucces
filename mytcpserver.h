@@ -20,6 +20,7 @@ public slots:
     void slotNewConnection();
     void slotClientDisconnected();
     void slotServerRead();
+    //void server_answer(bool answer);
 private:
     QTcpServer * mTcpServer;
     QMap<QTcpSocket*, int> Clients;

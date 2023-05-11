@@ -78,28 +78,28 @@ void SingletonDB::fetchAllUsers() // Вывести таблицу ползов�
     else qDebug() << "Fetch all users error: " << query.lastError().text();
 }
 
-//void SingletonDB::fetchAllUsers() // Вывести таблицу ползователей
-//{
-//    QString result = "";
-//    QSqlQuery query;
-//    query.prepare("SELECT * FROM User;");
-//    if (query.exec()) {
-//        while (query.next()) {
-//            result += QString("ID: %1 | Login: %2 | Name: %3 | Surname: %4 | Patronymic: %5 | Password: %6 | Role: %7 | status_online: %8")
-//                .arg(query.value(0).toString())
-//                .arg(query.value(1).toString())
-//                .arg(query.value(2).toString())
-//                .arg(query.value(3).toString())
-//                .arg(query.value(4).toString())
-//                .arg(query.value(5).toString())
-//                .arg(query.value(6).toString())
-//                .arg(query.value(7).toString());
-//            qDebug() << result;
-//            result = "";
-//        }
-//    }
-//    else qDebug() << "Fetch all users error: " << query.lastError().text();
-//}
+void SingletonDB::stat() // Вывести таблицу ползователей
+{
+    QString result = "";
+    QSqlQuery query;
+    query.prepare("SELECT * FROM User;");
+    if (query.exec()) {
+        while (query.next()) {
+            result += QString("ID: %1 | Login: %2 | Name: %3 | Surname: %4 | Patronymic: %5 | task1_stat %6, task2_stat %7, task3_stat %8, task4_stat %9);")
+                .arg(query.value(0).toString())
+                .arg(query.value(1).toString())
+                .arg(query.value(2).toString())
+                .arg(query.value(3).toString())
+                .arg(query.value(4).toString())
+                .arg(query.value(5).toString())
+                .arg(query.value(6).toString())
+                .arg(query.value(7).toString())
+                .arg(query.value(8).toString());
+            result = "";
+        }
+    }
+    else qDebug() << "Fetch all users error: " << query.lastError().text();
+}
 
 QString SingletonDB::authUser(const QString login, const QString pass, const int connection_id)
 {
