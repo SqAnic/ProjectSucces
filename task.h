@@ -16,7 +16,8 @@ public:
     ~task();
 
 public slots:
-    void slot_task(QString task_number);
+    void slot_task_generator(QString task_number);
+    //void slot_task_generator(QString task);
 
 private slots:
     void on_pushButton_send_clicked();
@@ -25,6 +26,10 @@ private slots:
 
 private:
     Ui::task *ui;
+
+signals:
+    void signal_mainwindow();
+
 
 
 };

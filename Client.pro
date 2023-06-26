@@ -15,17 +15,20 @@ SOURCES += \
     main.cpp \
     mainwindow.cpp \
     SingletonClient.cpp \
+    statistic.cpp \
     task.cpp
 
 HEADERS += \
     authform.h \
     mainwindow.h \
     SingletonClient.h \
+    statistic.h \
     task.h
 
 FORMS += \
     authform.ui \
     mainwindow.ui \
+    statistic.ui \
     task.ui
 
 # Default rules for deployment.

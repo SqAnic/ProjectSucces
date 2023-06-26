@@ -2,12 +2,18 @@
 <ui version="4.0">
  <class>task</class>
  <widget class="QWidget" name="task">
+  <property name="windowModality">
+   <enum>Qt::NonModal</enum>
+  </property>
+  <property name="enabled">
+   <bool>true</bool>
+  </property>
   <property name="geometry">
    <rect>
     <x>0</x>
     <y>0</y>
-    <width>399</width>
-    <height>276</height>
+    <width>602</width>
+    <height>332</height>
    </rect>
   </property>
   <property name="windowTitle">
@@ -16,15 +22,25 @@
   <widget class="QWidget" name="verticalLayoutWidget">
    <property name="geometry">
     <rect>
-     <x>60</x>
-     <y>30</y>
-     <width>291</width>
-     <height>201</height>
+     <x>20</x>
+     <y>20</y>
+     <width>551</width>
+     <height>281</height>
     </rect>
    </property>
    <layout class="QVBoxLayout" name="verticalLayout">
     <item>
+     <widget class="QLabel" name="label_variant">
+      <property name="text">
+       <string>variant</string>
+      </property>
+     </widget>
+    </item>
+    <item>
      <widget class="QLabel" name="label_task">
+      <property name="enabled">
+       <bool>true</bool>
+      </property>
       <property name="text">
        <string>task2</string>
       </property>
@@ -64,6 +80,9 @@
      <spacer name="verticalSpacer_2">
       <property name="orientation">
        <enum>Qt::Vertical</enum>
+      </property>
+      <property name="sizeType">
+       <enum>QSizePolicy::Fixed</enum>
       </property>
       <property name="sizeHint" stdset="0">
        <size>

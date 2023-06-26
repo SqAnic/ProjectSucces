@@ -4,6 +4,7 @@
 #include <QMainWindow>
 #include <Qdebug>
 #include "task.h"
+#include "statistic.h"
 
 
 QT_BEGIN_NAMESPACE
@@ -28,6 +29,8 @@ public slots:
 
     void on_pushButton_task3_clicked();
 
+    void on_pushButton_task4_clicked();
+
     void on_actiontask1_triggered();
 
     void on_actiontask2_triggered();
@@ -36,15 +39,20 @@ public slots:
 
     void on_actionexit_triggered();
 
-    void slot_on_auth_ok(QString login);
+    void slot_on_auth_ok(QString login, QString str);
+
+    //void slot_task();
 
 private:
     Ui::MainWindow *ui;
     task *TaskWindow;
+    //Statistic *StatisticWindow;
 
 signals:
-    void signal_task(QString);
+    void signal_task(QString, QString);
 
-
+private slots:
+    void on_pushButton_stat_clicked();
+    void on_pushButton_mystat_clicked();
 };
 #endif // MAINWINDOW_H

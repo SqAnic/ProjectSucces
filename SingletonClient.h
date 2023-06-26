@@ -4,6 +4,7 @@
 #include <QtNetwork>
 #include <QByteArray>
 #include <QDebug>
+#include "authform.h"
 
 class SingletonClient;
 
@@ -23,12 +24,20 @@ private:
     static SingletonClient * p_instance;
     static SingletonDestroyer destroyer;
     QTcpSocket * socket;
+    AuthForm *auth;
+
 protected:
     explicit SingletonClient(QObject * parent = nullptr);
     SingletonClient(const SingletonClient&) = delete;
     SingletonClient& operator =(SingletonClient&) = delete;
     ~SingletonClient();
     friend class SingletonDestroyer;
+
+public:
+    // Добавлен метод setAuth
+    void setAuth(AuthForm* authForm) {
+        this->auth = authForm;
+    }
 
 private slots:
     void slot_readFromServer();

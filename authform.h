@@ -20,7 +20,6 @@ public slots:
     void handleReadFromServer(const QString& str);
 
 private slots:
-    //void on_pushButton_change_clicked();
 
     void on_pushButton_auth_clicked();
 
@@ -32,13 +31,17 @@ private:
     Ui::AuthForm *ui;
     AuthForm *ui_auth;
     MainWindow *slot_window;
+    Statistic *slot_stat;
+    task *slot_task;
 
 
 
     void change_mod(bool); //mode -> true for auth
 
 signals:
-    void auth_ok(QString);
+    void auth_ok(QString, QString);
+    void stat_signal(QString);
+    void task_signal(QString);
 
 };
 
