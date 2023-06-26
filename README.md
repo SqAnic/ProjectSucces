@@ -1,5 +1,7 @@
 # ProjectSucces
 
+## ![Диаграммы](https://github.com/SqAnic/ProjectSucces/wiki/Docs)
+
 ## Техническое задание на разработку клиент-серверного приложения для проверки знаний обучающихся "ProjectSucces"
 ### Оглавление
 
