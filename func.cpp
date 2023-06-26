@@ -2,8 +2,8 @@
 #include "SingletonDB.h"
 
 
-void auth(const QString login, const QString pass, const QString role){
-    QString result = SingletonDB::getInstance()->authUser(login, pass, role);
+void auth(const QString login, const QString pass, const QString role, const int connection_id){
+    QString result = SingletonDB::getInstance()->authUser(login, pass, connection_id);
     if (result  == "error")
     {
         qDebug() << "error auth";
@@ -20,10 +20,10 @@ void auth(const QString login, const QString pass, const QString role){
 
 }
 
-void registration(const QString login, const QString name,const QString surname,const QString patronymic, const QString pass, const QString role)
+void registration(const QString login, const QString name,const QString surname,const QString patronymic, const QString pass, const QString role, int connection_id)
 {
 
-    qDebug() << "Insert user result: " << SingletonDB::getInstance()->insertUser(login, name, surname, patronymic, pass, role);
+    qDebug() << "Insert user result: " << SingletonDB::getInstance()->insertUser(login, name, surname, patronymic, pass, role, connection_id);
     SingletonDB::getInstance()->fetchAllUsers();
 
 }
@@ -33,7 +33,7 @@ void logout(int connection_id)
     SingletonDB::getInstance()->logout(connection_id);
 }
 
-void Parsing(MyTcpServer *mTcpServer, QTcpSocket *mTcpSocket, QString message){
+void Parsing(int connection_id, QString message,MyTcpServer& server){
     QList<QString> parts = message.split('&');
     qDebug() << parts[0];
     if(parts[0] == "auth"){
@@ -60,7 +60,7 @@ void Parsing(MyTcpServer *mTcpServer, QTcpSocket *mTcpSocket, QString message){
         QString patromynic = parts[4];
         QString pass = parts[5];
         QString role = parts[6];
-        registration(login, name, surname, patromynic, pass, role);
+        registration(login, name, surname, patromynic, pass, role, connection_id);
         }
     }
 
